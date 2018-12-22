@@ -1,11 +1,25 @@
 var pl = planck, Vec2 = pl.Vec2;
 
 class Marble {
-  constructor() {
+  constructor(world) {
     this.m_contactCount = 0;
     this.m_marbleBody = null;
     this.m_maxLinearVelocity = 1.5;
     this.m_maxAngularVelocity = 40.;
+
+    var marbleFD = {"density": 2.0, "friction": .2};
+
+    this.m_marbleBody = world.createDynamicBody(Vec2(12.0, 1.0));
+    this.m_marbleBody.setAngularDamping(.8);
+    this.m_marbleBody.setSleepingAllowed(false);
+    this.m_marbleBody.createFixture(pl.Circle(0.4), marbleFD);
+
+    world.on('begin-contact', function(contact) {
+      this.m_contactCount++;
+    });
+    world.on('end-contact', function(contact) {
+      this.m_contactCount--;
+    });
   }
 
   isTouchingGround() {

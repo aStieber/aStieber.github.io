@@ -2,17 +2,17 @@ var pl = planck, Vec2 = pl.Vec2;
 var TK = {NONE: 0, GROUND: 1, ICE: 2, GLUE: 3};
 
 class Tile {
-  constructor(x, y1, tileDef) {
-    this.m_kind = tileDef.type;
-    this.m_p1 = Vec2(x, y1);
-    this.m_p2 = Vec2(x + tileDef.dx, tileDef.yPos);
+  constructor(tileDef) {
+    this.m_kind = tileDef.kind;
+    this.m_p1 = Vec2(tileDef.p1.x, tileDef.p1.y);
+    this.m_p2 = Vec2(tileDef.p2.x, tileDef.p2.y);
   }
   getKindFD() {
     switch (this.m_kind) {
-      case TK.GROUND: return {density: 0.0, friction: 0.6};
-      case TK.ICE: return {density: 0.0, friction: 0.2};
-      case TK.GLUE: return {density: 0.0, friction: 10.};
-      default: return {density: 0.0, friction: 1.0};
+      case TK.GROUND: return {density: 0.0, friction: 0.6, userData: {kind: this.m_kind}};
+      case TK.ICE: return {density: 0.0, friction: 0.2, userData: {kind: this.m_kind}};
+      case TK.GLUE: return {density: 0.0, friction: 10., userData: {kind: this.m_kind}};
+      default: return {density: 0.0, friction: 1.0, userData: {kind: this.m_kind}};
     }
   }
   getColor() {
@@ -26,31 +26,16 @@ class Tile {
 }
 
 function createTerrain(world) {
-  var ground = world.createBody();
-
-  var tileDefs = [{type: TK.GROUND, yPos: 0, dx: 15},
-                  {type: TK.GROUND, yPos: 0.25, dx: 5},
-                  {type: TK.GROUND, yPos: 1., dx: 5.},
-                  {type: TK.GROUND, yPos: 2.5, dx: 5.},
-                  {type: TK.NONE, yPos: 1, dx: 14},
-                  {type: TK.GROUND, yPos: -2.0, dx: 5},
-                  {type: TK.ICE, yPos: -2.5, dx: 2.5},
-                  {type: TK.ICE, yPos: -2.0, dx: 2.5},                 
-                  {type: TK.GROUND, yPos: 1.25, dx: 5},
-                  {type: TK.GLUE, yPos: 1.25, dx: 2},
-                  {type: TK.NONE, yPos: 3.5, dx: -.5},
-                  {type: TK.GLUE, yPos: 9, dx: 5} ];
-
+  var ground = world.createBody({userData: "ground"});
   var terrainTiles = [];
-  var x = 10.0, y1 = 0.0;
-  tileDefs.forEach(function(tileDef) {
-    if (tileDef.type !== TK.NONE) {
-      var tile = new Tile(x, y1, tileDef);
+
+  var levelData = LEVEL_1_DATA;
+
+  levelData.level.terrain.forEach(function(tileDef) {
+    var tile = new Tile(tileDef);
+    terrainTiles.push(tile);
+    if (tile.m_kind !== TK.NONE)
       ground.createFixture(pl.Edge(tile.m_p1, tile.m_p2), tile.getKindFD());
-      terrainTiles.push(tile);
-    }
-    y1 = tileDef.yPos;
-    x += tileDef.dx;
   });
 
   return terrainTiles;

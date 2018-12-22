@@ -7,13 +7,16 @@
 </head><body style="background-color: #333">
 <script src="planck.js"></script>
 <script src="marble.js"></script>
-<script src="terrain.js"></script>
 <script src="painter.js"></script>
+<script src="game.js"></script>
 <script src="history.js"></script>
+<script src="levels/level1.js"></script>
+<script src="terrain.js"></script>
 
 <canvas id="canvas" width="800" height="600" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas></body></html>
 <script>
 var pl = planck, Vec2 = pl.Vec2;
+
 var world = new pl.World({
   gravity : Vec2(0, -10)
 });
@@ -21,26 +24,14 @@ var world = new pl.World({
 var ANGULAR_SPEED = 2.5;
 var AIR_SPEED = 2;
 
-//terrain
-var terrainTiles = createTerrain(world);
-
-// marble
-var marbleFD = {};
-marbleFD.density = 2.0;
-marbleFD.friction = .2;
-var marble = new Marble();
-
-marble.m_marbleBody = world.createDynamicBody(Vec2(12.0, 1.0));
-marble.m_marbleBody.setAngularDamping(.8);
-marble.m_marbleBody.setSleepingAllowed(false);
-marble.m_marbleBody.createFixture(pl.Circle(0.4), marbleFD);
+var game = new Game(world, LEVEL_1_DATA)
 
 world.on('begin-contact', function(contact) {
-  marble.m_contactCount++;
-});
-world.on('end-contact', function(contact) {
-  marble.m_contactCount--;
-});
+      game.m_marble.m_contactCount++;
+    });
+    world.on('end-contact', function(contact) {
+      game.m_marble.m_contactCount--;
+    });
 //input
 var keys = []
 window.addEventListener("keydown", function(e) {
@@ -58,29 +49,30 @@ var painter = new Painter(canvas.getContext("2d"), canvas.width, canvas.height);
 var frameHistory = new History();
 //game loop
 var spacePressed = false;
-function gameLoop() {  
+function gameLoop() { 
+
   if (keys[39]) { //right
-    marble.applyAngularForce(-ANGULAR_SPEED);
-    if (!marble.isTouchingGround()) marble.applyLinearForce(Vec2(AIR_SPEED, 0));
+    game.m_marble.applyAngularForce(-ANGULAR_SPEED);
+    if (!game.m_marble.isTouchingGround()) game.m_marble.applyLinearForce(Vec2(AIR_SPEED, 0));
   }
   else if (keys[37]) {
-    marble.applyAngularForce(ANGULAR_SPEED);
-    if (!marble.isTouchingGround()) marble.applyLinearForce(Vec2(-AIR_SPEED, 0));
+    game.m_marble.applyAngularForce(ANGULAR_SPEED);
+    if (!game.m_marble.isTouchingGround()) game.m_marble.applyLinearForce(Vec2(-AIR_SPEED, 0));
   } 
 
-  if (keys[38] && marble.isTouchingGround()) {
-    marble.jump();        
+  if (keys[38] && game.m_marble.isTouchingGround()) {
+    game.m_marble.jump();        
   }
 
   if (keys[32] && !spacePressed) {
     spacePressed = true;
-    marble.setPosition(frameHistory.getOldFrame(2., true))
+    game.m_marble.setPosition(frameHistory.getOldFrame(2., true))
   }
   if (!keys[32]) spacePressed = false;
 
   world.step(1/60);
-  frameHistory.storeFrame(marble.getPosition());
-  painter.draw(world, marble, terrainTiles, frameHistory);
+  frameHistory.storeFrame(game.m_marble.getPosition());
+  painter.draw(world, game.m_marble, game.m_terrainTiles, frameHistory);
 };
 
 setInterval(gameLoop, 1000 / 60);

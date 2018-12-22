@@ -10,22 +10,23 @@ class Painter {
     this.m_context.clearRect(0, 0, this.m_width, this.m_width);
 
     terrainTiles.forEach((tile) => {
-      this.drawLine(this.translatePosition(tile.m_p1), this.translatePosition(tile.m_p2), tile.getColor());      
+      if (tile.m_kind !== TK.NONE)
+        this.drawLine(this.translatePosition(tile.m_p1), this.translatePosition(tile.m_p2), tile.getColor());      
     });
     //marble
     var marbleBody = marble.m_marbleBody;
     var marbleShape = marbleBody.m_fixtureList.getShape();
     var pos = this.translatePosition(marbleBody.getPosition());
-    this.drawCircle(pos, marbleShape.m_radius);
+    this.drawMarble(pos, marbleShape.m_radius);
     this.drawLine(pos, 
       Vec2( pos.x + Math.cos(marbleBody.getAngle()) * marbleShape.m_radius * 15, 
             pos.y - Math.sin(marbleBody.getAngle()) * marbleShape.m_radius * 15), '#FF0000');
     //history
     var shadowPos = this.translatePosition(history.getOldFrame(2.));
-    this.drawCircle(shadowPos, marbleShape.m_radius, true);
+    this.drawMarble(shadowPos, marbleShape.m_radius, true);
   }
 
-  drawCircle(pos, rad, isShadow=false) {
+  drawMarble(pos, rad, isShadow=false) {
     this.m_context.beginPath();
     this.m_context.arc(pos.x, pos.y, rad * 15, 0, 360);
     this.m_context.strokeStyle = isShadow ? '#770000' : '#FF0000';
