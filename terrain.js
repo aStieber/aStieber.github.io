@@ -25,10 +25,8 @@ class Tile {
   }
 }
 
-function createTerrain(world, levelData) {
-  var ground = world.createBody({userData: "ground"});
+function createTerrain(ground, levelData) {
   var terrainTiles = [];
-
   levelData.level.terrain.forEach(function(tileDef) {
     var tile = new Tile(tileDef);
     terrainTiles.push(tile);

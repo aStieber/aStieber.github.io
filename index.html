@@ -25,13 +25,23 @@ var ANGULAR_SPEED = 2.5;
 var AIR_SPEED = 2;
 
 var game = new Game(world, LEVEL_1_DATA)
+var doomedObjectives = []
 
 world.on('begin-contact', function(contact) {
-  game.m_marble.m_contactCount++;
-  console.log(contact.getFixtureA().getUserData())
+  var userData = contact.getFixtureA().getUserData();
+  if (userData.kind === "coin") {
+    game.collectCoin(userData.objID);
+  }
+  else if (userData.kind === "finish") {
+    game.reachedFinish()
+  }
+  else game.m_marble.m_contactCount++;
 });
 world.on('end-contact', function(contact) {
-  game.m_marble.m_contactCount--;
+  var userData = contact.getFixtureA().getUserData();
+  if (!(userData.kind === "coin" || userData.kind === "finish")) {
+    game.m_marble.m_contactCount--;
+  }
 });
 //input
 var keys = []
@@ -44,7 +54,7 @@ window.addEventListener('keyup', function(e) {
 
 //drawing
 var canvas = document.getElementById("canvas");
-var painter = new Painter(canvas.getContext("2d"), canvas.width, canvas.height);
+var painter = new Painter(canvas);
 
 //history
 var frameHistory = new History();
@@ -72,8 +82,9 @@ function gameLoop() {
   if (!keys[32]) spacePressed = false;
 
   world.step(1/60);
+  game.update();
   frameHistory.storeFrame(game.m_marble.getPosition());
-  painter.draw(world, game, frameHistory);
+  painter.drawGame(game, frameHistory);
 };
 
 setInterval(gameLoop, 1000 / 60);

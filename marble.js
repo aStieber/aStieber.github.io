@@ -13,8 +13,6 @@ class Marble {
     this.m_marbleBody.setAngularDamping(.8);
     this.m_marbleBody.setSleepingAllowed(false);
     this.m_marbleBody.createFixture(pl.Circle(0.4), marbleFD);
-
-    
   }
 
   isTouchingGround() {

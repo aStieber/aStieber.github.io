@@ -17,7 +17,8 @@ var LEVEL_1_DATA = {
         ],
         "objectives": [
             {"kind": "coin", "topLeft": {"x": 70.5,"y": 2}},
-            {"kind": "finish", "topLeft": {"x": 10,"y": 0.125}}
+            {"kind": "coin", "topLeft": {"x": 20,"y": .25}},
+            {"kind": "finish", "topLeft": {"x": 10,"y": .25}}
         ]
     }
 }
