@@ -4,7 +4,7 @@ var Marble = {
   m_contactCount: 0,
   m_marbleBody: null,
   m_maxLinearVelocity: 1.5,
-  m_maxAngularVelocity: 25.,
+  m_maxAngularVelocity: 40.,
 
   isTouchingGround: function() {
     return this.m_contactCount > 0;
@@ -23,7 +23,7 @@ var Marble = {
   },
 
   jump: function() {
-    var test = Vec2(0, 3 * ( + Math.abs(this.m_marbleBody.getAngularVelocity()) / this.m_maxAngularVelocity));
+    var test = Vec2(0, 1.5 + 3 * ( Math.abs(this.m_marbleBody.getAngularVelocity()) / this.m_maxAngularVelocity));
     this.m_marbleBody.applyLinearImpulse(test, this.m_marbleBody.getPosition());
   }
 

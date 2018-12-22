@@ -29,7 +29,7 @@ var createTerrain = function(world) {
     friction : 10.
   };
 
-  ground.createFixture(pl.Edge(Vec2(-35.0, 0.0), Vec2(-25.0, 0.0)), groundFD);
+  ground.createFixture(pl.Edge(Vec2(10.0, 0.0), Vec2(20.0, 0.0)), groundFD);
   var tiles = [ new Tile(TK.GROUND, 0.25),
                  new Tile(TK.GROUND, 1.),
                  new Tile(TK.GROUND, 2.5, 4),
@@ -42,7 +42,7 @@ var createTerrain = function(world) {
                  new Tile(TK.NONE, 3.5, -.5),
                  new Tile(TK.GLUE, 9, 5) ];
 
-  var x = -25.0, y1 = 0.0;
+  var x = 20.0, y1 = 0.0;
 
   tiles.forEach(function(tile) {
     if (tile.m_kind !== TK.NONE) {
