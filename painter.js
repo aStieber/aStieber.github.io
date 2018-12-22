@@ -54,6 +54,10 @@ class Painter {
     context.fillText(`Coins remaining: ${game.m_remainingCoins}`, 10, 50);
     if (game.m_victory)
       context.fillText('You won', 10, 80);
+
+    context.font = "14px Arial";
+    context.fillText('Left/Right/Up: move', 280, 50)
+    context.fillText('Spacebar: warp to shadow (maintains velocity)', 280, 70)
   }
 
   drawCircle(pos, rad, isShadow=false) {
