@@ -10,7 +10,7 @@ var Marble = {
     return this.m_contactCount > 0;
   },
   applyLinearForce: function(vector) {
-    this.m_marbleBody.applyForce(vector, this.m_marbleBody.getPosition());
+    this.m_marbleBody.applyForce(vector, this.m_marbleBody.getPosition(), true);
     if (Math.abs(this.m_marbleBody.getLinearVelocity()) > this.m_maxLinearVelocity) {
       this.m_marbleBody.setLinearSpeed(this.m_maxLinearVelocity);
     }
@@ -18,13 +18,13 @@ var Marble = {
 
   applyAngularForce: function(force) {
     if (Math.abs(this.m_marbleBody.getAngularVelocity()) < this.m_maxAngularVelocity) {
-      this.m_marbleBody.applyTorque(force);
+      this.m_marbleBody.applyTorque(force, true);
     }
   },
 
   jump: function() {
     var test = Vec2(0, 1.5 + 3 * ( Math.abs(this.m_marbleBody.getAngularVelocity()) / this.m_maxAngularVelocity));
-    this.m_marbleBody.applyLinearImpulse(test, this.m_marbleBody.getPosition());
+    this.m_marbleBody.applyLinearImpulse(test, this.m_marbleBody.getPosition(), true);
   }
 
 }

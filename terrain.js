@@ -56,4 +56,4 @@ function createTerrain(world) {
   });
 
   return terrainTiles;
-};
+}
