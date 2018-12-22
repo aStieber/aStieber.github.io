@@ -13,7 +13,10 @@ class Painter {
         var type = fixture.getType();
         var shape = fixture.getShape();
         if (type === 'circle') {
-          this.drawCircle(this.translatePosition(body.getPosition()), shape.m_radius);
+          var pos = this.translatePosition(body.getPosition());
+          this.drawCircle(pos, shape.m_radius);
+          this.drawLine(pos, 
+            Vec2(pos.x + Math.cos(body.getAngle()) * shape.m_radius * 15, pos.y - Math.sin(body.getAngle()) * shape.m_radius * 15));
         }
         else if (type === 'edge') {
           this.drawLine(this.translatePosition(shape.m_vertex1), this.translatePosition(shape.m_vertex2));
@@ -24,9 +27,8 @@ class Painter {
 
   drawCircle(pos, rad) {
     this.m_context.beginPath();
-    this.m_context.arc(pos.x, pos.y, rad * 10, 0, 360);
+    this.m_context.arc(pos.x, pos.y, rad * 15, 0, 360);
     this.m_context.strokeStyle = '#FF0000';
-    this.m_context.lineWidth = 2;
     this.m_context.stroke();
   }
 
@@ -40,6 +42,6 @@ class Painter {
   }
 
   translatePosition(worldPos) {
-    return Vec2(worldPos.x * this.m_width / 80, worldPos.y * (-this.m_height / 60) + (this.m_height / 2));
+    return Vec2(worldPos.x * this.m_width / 80, worldPos.y * (-this.m_height / 30) + (this.m_height / 2));
   }
 }
