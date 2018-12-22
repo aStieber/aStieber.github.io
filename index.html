@@ -30,6 +30,7 @@ var marble = Marble;
 
 marble.m_marbleBody = world.createDynamicBody(Vec2(12.0, 1.0));
 marble.m_marbleBody.setAngularDamping(.8);
+marble.m_marbleBody.setSleepingAllowed(false);
 marble.m_marbleBody.createFixture(pl.Circle(0.4), marbleFD);
 
 world.on('begin-contact', function(contact) {
