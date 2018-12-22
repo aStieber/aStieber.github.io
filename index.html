@@ -12,7 +12,7 @@
 <script src="history.js"></script>
 <script src="levels/level1.js"></script>
 <script src="terrain.js"></script>
-
+<script src="objectives.js"></script>
 <canvas id="canvas" width="800" height="600" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas></body></html>
 <script>
 var pl = planck, Vec2 = pl.Vec2;
@@ -27,11 +27,12 @@ var AIR_SPEED = 2;
 var game = new Game(world, LEVEL_1_DATA)
 
 world.on('begin-contact', function(contact) {
-      game.m_marble.m_contactCount++;
-    });
-    world.on('end-contact', function(contact) {
-      game.m_marble.m_contactCount--;
-    });
+  game.m_marble.m_contactCount++;
+  console.log(contact.getFixtureA().getUserData())
+});
+world.on('end-contact', function(contact) {
+  game.m_marble.m_contactCount--;
+});
 //input
 var keys = []
 window.addEventListener("keydown", function(e) {
@@ -72,7 +73,7 @@ function gameLoop() {
 
   world.step(1/60);
   frameHistory.storeFrame(game.m_marble.getPosition());
-  painter.draw(world, game.m_marble, game.m_terrainTiles, frameHistory);
+  painter.draw(world, game, frameHistory);
 };
 
 setInterval(gameLoop, 1000 / 60);

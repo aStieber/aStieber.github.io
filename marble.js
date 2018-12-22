@@ -14,12 +14,7 @@ class Marble {
     this.m_marbleBody.setSleepingAllowed(false);
     this.m_marbleBody.createFixture(pl.Circle(0.4), marbleFD);
 
-    world.on('begin-contact', function(contact) {
-      this.m_contactCount++;
-    });
-    world.on('end-contact', function(contact) {
-      this.m_contactCount--;
-    });
+    
   }
 
   isTouchingGround() {
