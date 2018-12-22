@@ -17,15 +17,13 @@ var Marble = {
   },
 
   applyAngularForce: function(force) {
-    this.m_marbleBody.applyTorque(force);
-
-    if (Math.abs(this.m_marbleBody.getAngularVelocity()) > this.m_maxAngularVelocity) {
-      this.m_marbleBody.setAngularVelocity(this.m_maxAngularVelocity);
+    if (Math.abs(this.m_marbleBody.getAngularVelocity()) < this.m_maxAngularVelocity) {
+      this.m_marbleBody.applyTorque(force);
     }
   },
 
   jump: function() {
-    var test = Vec2(0, 2* ( + Math.abs(this.m_marbleBody.getAngularVelocity()) / this.m_maxAngularVelocity));
+    var test = Vec2(0, 3 * ( + Math.abs(this.m_marbleBody.getAngularVelocity()) / this.m_maxAngularVelocity));
     this.m_marbleBody.applyLinearImpulse(test, this.m_marbleBody.getPosition());
   }
 
