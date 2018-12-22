@@ -6,7 +6,7 @@ class Painter {
     this.m_height = height;
   }
 
-  draw(world, marble, terrainTiles) {
+  draw(world, marble, terrainTiles, history) {
     this.m_context.clearRect(0, 0, this.m_width, this.m_width);
 
     terrainTiles.forEach((tile) => {
@@ -20,12 +20,15 @@ class Painter {
     this.drawLine(pos, 
       Vec2( pos.x + Math.cos(marbleBody.getAngle()) * marbleShape.m_radius * 15, 
             pos.y - Math.sin(marbleBody.getAngle()) * marbleShape.m_radius * 15), '#FF0000');
+    //history
+    var shadowPos = this.translatePosition(history.getOldFrame(2.));
+    this.drawCircle(shadowPos, marbleShape.m_radius, true);
   }
 
-  drawCircle(pos, rad) {
+  drawCircle(pos, rad, isShadow=false) {
     this.m_context.beginPath();
     this.m_context.arc(pos.x, pos.y, rad * 15, 0, 360);
-    this.m_context.strokeStyle = '#FF0000';
+    this.m_context.strokeStyle = isShadow ? '#770000' : '#FF0000';
     this.m_context.stroke();
     this.m_context.closePath();
 

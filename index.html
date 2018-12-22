@@ -9,6 +9,8 @@
 <script src="marble.js"></script>
 <script src="terrain.js"></script>
 <script src="painter.js"></script>
+<script src="history.js"></script>
+
 <canvas id="canvas" width="800" height="600" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas></body></html>
 <script>
 var pl = planck, Vec2 = pl.Vec2;
@@ -26,7 +28,7 @@ var terrainTiles = createTerrain(world);
 var marbleFD = {};
 marbleFD.density = 2.0;
 marbleFD.friction = .2;
-var marble = Marble;
+var marble = new Marble();
 
 marble.m_marbleBody = world.createDynamicBody(Vec2(12.0, 1.0));
 marble.m_marbleBody.setAngularDamping(.8);
@@ -52,6 +54,10 @@ window.addEventListener('keyup', function(e) {
 var canvas = document.getElementById("canvas");
 var painter = new Painter(canvas.getContext("2d"), canvas.width, canvas.height);
 
+//history
+var frameHistory = new History();
+//game loop
+var spacePressed = false;
 function gameLoop() {  
   if (keys[39]) { //right
     marble.applyAngularForce(-ANGULAR_SPEED);
@@ -66,8 +72,15 @@ function gameLoop() {
     marble.jump();        
   }
 
+  if (keys[32] && !spacePressed) {
+    spacePressed = true;
+    marble.setPosition(frameHistory.getOldFrame(2., true))
+  }
+  if (!keys[32]) spacePressed = false;
+
   world.step(1/60);
-  painter.draw(world, marble, terrainTiles);
+  frameHistory.storeFrame(marble.getPosition());
+  painter.draw(world, marble, terrainTiles, frameHistory);
 };
 
 setInterval(gameLoop, 1000 / 60);

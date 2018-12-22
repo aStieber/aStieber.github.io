@@ -23,8 +23,6 @@ class Tile {
       default: return '#333333';
     }
   }
-
-
 }
 
 function createTerrain(world) {
@@ -46,7 +44,7 @@ function createTerrain(world) {
   var terrainTiles = [];
   var x = 10.0, y1 = 0.0;
   tileDefs.forEach(function(tileDef) {
-    if (tileDef.m_kind !== TK.NONE) {
+    if (tileDef.type !== TK.NONE) {
       var tile = new Tile(x, y1, tileDef);
       ground.createFixture(pl.Edge(tile.m_p1, tile.m_p2), tile.getKindFD());
       terrainTiles.push(tile);

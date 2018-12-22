@@ -1,30 +1,40 @@
 var pl = planck, Vec2 = pl.Vec2;
 
-var Marble = {
-  m_contactCount: 0,
-  m_marbleBody: null,
-  m_maxLinearVelocity: 1.5,
-  m_maxAngularVelocity: 40.,
+class Marble {
+  constructor() {
+    this.m_contactCount = 0;
+    this.m_marbleBody = null;
+    this.m_maxLinearVelocity = 1.5;
+    this.m_maxAngularVelocity = 40.;
+  }
 
-  isTouchingGround: function() {
+  isTouchingGround() {
     return this.m_contactCount > 0;
-  },
-  applyLinearForce: function(vector) {
-    this.m_marbleBody.applyForce(vector, this.m_marbleBody.getPosition(), true);
+  }
+  applyLinearForce(vector) {
+    this.m_marbleBody.applyForce(vector, this.getPosition(), true);
     if (Math.abs(this.m_marbleBody.getLinearVelocity()) > this.m_maxLinearVelocity) {
       this.m_marbleBody.setLinearSpeed(this.m_maxLinearVelocity);
     }
-  },
+  }
 
-  applyAngularForce: function(force) {
+  applyAngularForce(force) {
     if (Math.abs(this.m_marbleBody.getAngularVelocity()) < this.m_maxAngularVelocity) {
       this.m_marbleBody.applyTorque(force, true);
     }
-  },
+  }
 
-  jump: function() {
+  jump() {
     var test = Vec2(0, 1.5 + 3 * ( Math.abs(this.m_marbleBody.getAngularVelocity()) / this.m_maxAngularVelocity));
-    this.m_marbleBody.applyLinearImpulse(test, this.m_marbleBody.getPosition(), true);
+    this.m_marbleBody.applyLinearImpulse(test, this.getPosition(), true);
+  }
+
+  getPosition() {
+    return this.m_marbleBody.getPosition();
+  }
+
+  setPosition(pos) {
+    this.m_marbleBody.setPosition(pos);
   }
 
 }
