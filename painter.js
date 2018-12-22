@@ -6,23 +6,20 @@ class Painter {
     this.m_height = height;
   }
 
-  draw(world) {
+  draw(world, marble, terrainTiles) {
     this.m_context.clearRect(0, 0, this.m_width, this.m_width);
-    for (var body = world.getBodyList(); body; body = body.getNext()) {
-      for (var fixture = body.getFixtureList(); fixture; fixture = fixture.getNext()) {
-        var type = fixture.getType();
-        var shape = fixture.getShape();
-        if (type === 'circle') {
-          var pos = this.translatePosition(body.getPosition());
-          this.drawCircle(pos, shape.m_radius);
-          this.drawLine(pos, 
-            Vec2(pos.x + Math.cos(body.getAngle()) * shape.m_radius * 15, pos.y - Math.sin(body.getAngle()) * shape.m_radius * 15));
-        }
-        else if (type === 'edge') {
-          this.drawLine(this.translatePosition(shape.m_vertex1), this.translatePosition(shape.m_vertex2));
-        }
-      }
-    }
+
+    terrainTiles.forEach((tile) => {
+      this.drawLine(this.translatePosition(tile.m_p1), this.translatePosition(tile.m_p2), tile.getColor());      
+    });
+    //marble
+    var marbleBody = marble.m_marbleBody;
+    var marbleShape = marbleBody.m_fixtureList.getShape();
+    var pos = this.translatePosition(marbleBody.getPosition());
+    this.drawCircle(pos, marbleShape.m_radius);
+    this.drawLine(pos, 
+      Vec2( pos.x + Math.cos(marbleBody.getAngle()) * marbleShape.m_radius * 15, 
+            pos.y - Math.sin(marbleBody.getAngle()) * marbleShape.m_radius * 15), '#FF0000');
   }
 
   drawCircle(pos, rad) {
@@ -30,15 +27,18 @@ class Painter {
     this.m_context.arc(pos.x, pos.y, rad * 15, 0, 360);
     this.m_context.strokeStyle = '#FF0000';
     this.m_context.stroke();
+    this.m_context.closePath();
+
   }
 
-  drawLine(p1, p2) {
+  drawLine(p1, p2, color) {
     this.m_context.beginPath();
     this.m_context.moveTo(p1.x, p1.y);
     this.m_context.lineTo(p2.x, p2.y);
-    this.m_context.strokeStyle = '#CCCCCC';
+    this.m_context.strokeStyle = color;
     this.m_context.lineWidth=2;
     this.m_context.stroke();
+    this.m_context.closePath();
   }
 
   translatePosition(worldPos) {

@@ -20,7 +20,7 @@ var ANGULAR_SPEED = 2.5;
 var AIR_SPEED = 2;
 
 //terrain
-createTerrain(world);
+var terrainTiles = createTerrain(world);
 
 // marble
 var marbleFD = {};
@@ -66,7 +66,7 @@ function gameLoop() {
   }
 
   world.step(1/60);
-  painter.draw(world);
+  painter.draw(world, marble, terrainTiles);
 };
 
 setInterval(gameLoop, 1000 / 60);

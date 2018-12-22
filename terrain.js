@@ -2,12 +2,10 @@ var pl = planck, Vec2 = pl.Vec2;
 var TK = {NONE: 0, GROUND: 1, ICE: 2, GLUE: 3};
 
 class Tile {
-  constructor(kind, yPos, dx=5.) {
-    this.m_kind = kind;
-    this.m_yPos = yPos;
-    this.m_dx = dx;
-    this.kindFD = this.getKindFD();
-
+  constructor(x, y1, tileDef) {
+    this.m_kind = tileDef.type;
+    this.m_p1 = Vec2(x, y1);
+    this.m_p2 = Vec2(x + tileDef.dx, tileDef.yPos);
   }
   getKindFD() {
     switch (this.m_kind) {
@@ -17,38 +15,45 @@ class Tile {
       default: return {density: 0.0, friction: 1.0};
     }
   }
+  getColor() {
+    switch(this.m_kind) {
+      case TK.GROUND: return '#663300';
+      case TK.ICE: return '#00FFFF';
+      case TK.GLUE: return '#00CC00';
+      default: return '#333333';
+    }
+  }
 
 
 }
 
-var createTerrain = function(world) {
+function createTerrain(world) {
   var ground = world.createBody();
 
-  var groundFD = {
-    density : 0.0,
-    friction : 10.
-  };
+  var tileDefs = [{type: TK.GROUND, yPos: 0, dx: 15},
+                  {type: TK.GROUND, yPos: 0.25, dx: 5},
+                  {type: TK.GROUND, yPos: 1., dx: 5.},
+                  {type: TK.GROUND, yPos: 2.5, dx: 5.},
+                  {type: TK.NONE, yPos: 1, dx: 14},
+                  {type: TK.GROUND, yPos: -2.0, dx: 5},
+                  {type: TK.ICE, yPos: -2.5, dx: 2.5},
+                  {type: TK.ICE, yPos: -2.0, dx: 2.5},                 
+                  {type: TK.GROUND, yPos: 1.25, dx: 5},
+                  {type: TK.GLUE, yPos: 1.25, dx: 2},
+                  {type: TK.NONE, yPos: 3.5, dx: -.5},
+                  {type: TK.GLUE, yPos: 9, dx: 5} ];
 
-  ground.createFixture(pl.Edge(Vec2(10.0, 0.0), Vec2(20.0, 0.0)), groundFD);
-  var tiles = [ new Tile(TK.GROUND, 0.25),
-                 new Tile(TK.GROUND, 1.),
-                 new Tile(TK.GROUND, 2.5, 4),
-                 new Tile(TK.NONE, 1, 14),
-                 new Tile(TK.GROUND, -2.0),
-                 new Tile(TK.ICE, -2.5, 2.5),
-                 new Tile(TK.ICE, -2.0, 2.5),                 
-                 new Tile(TK.GROUND, 1.25),
-                 new Tile(TK.GLUE, 1.25, 2),
-                 new Tile(TK.NONE, 3.5, -.5),
-                 new Tile(TK.GLUE, 9, 5) ];
-
-  var x = 20.0, y1 = 0.0;
-
-  tiles.forEach(function(tile) {
-    if (tile.m_kind !== TK.NONE) {
-      ground.createFixture(pl.Edge(Vec2(x, y1), Vec2(x + tile.m_dx, tile.m_yPos)), tile.kindFD);
+  var terrainTiles = [];
+  var x = 10.0, y1 = 0.0;
+  tileDefs.forEach(function(tileDef) {
+    if (tileDef.m_kind !== TK.NONE) {
+      var tile = new Tile(x, y1, tileDef);
+      ground.createFixture(pl.Edge(tile.m_p1, tile.m_p2), tile.getKindFD());
+      terrainTiles.push(tile);
     }
-    y1 = tile.m_yPos;
-    x += tile.m_dx;
+    y1 = tileDef.yPos;
+    x += tileDef.dx;
   });
+
+  return terrainTiles;
 };
