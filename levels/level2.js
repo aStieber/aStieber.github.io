@@ -1,6 +1,7 @@
 var LEVEL_2_DATA = {
     "level": {
         "id": 1,
+        "text": "Level 2 - Shadow Very Much Needed",
         "revertCount": 1,
         "marbleStart": {"x": 11, "y": -4.5},
         "terrain": [

@@ -21,6 +21,7 @@ class Game {
     //history
     this.m_frameHistory = new History();
     //misc
+    this.m_levelData = levelData;
     this.m_victory = false;
     this.m_alive = true;
   }

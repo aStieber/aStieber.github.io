@@ -1,6 +1,7 @@
 var LEVEL_1_DATA = {
     "level": {
         "id": 1,
+        "text": "Level 1 - Momentum (shadow not needed)",
         "revertCount": 1,
         "marbleStart": {"x": 12, "y": 1},
         "terrain": [
@@ -9,6 +10,12 @@ var LEVEL_1_DATA = {
             {"kind": 1, "p1": {"x": 30,"y": 0.25}, "p2": {"x": 35,"y": 1}},
             {"kind": 1, "p1": {"x": 35,"y": 1}, "p2": {"x": 40,"y": 2.5}},
             {"kind": 1, "p1": {"x": 54,"y": 1}, "p2": {"x": 59,"y": -2}},
+
+            {"kind": 1, "p1": {"x": 10, "y": 4}, "p2": {"x": 25,"y": 4}},
+            {"kind": 1, "p1": {"x": 25,"y": 4}, "p2": {"x": 30,"y": 4.25}},
+            {"kind": 1, "p1": {"x": 30,"y": 4.25}, "p2": {"x": 35,"y": 5}},
+            {"kind": 1, "p1": {"x": 35,"y": 5}, "p2": {"x": 40,"y": 6}},
+
             {"kind": 2, "p1": {"x": 59,"y": -2}, "p2": {"x": 61.5, "y": -2.5}},
             {"kind": 2, "p1": {"x": 61.5, "y": -2.5}, "p2": {"x": 64,"y": -2}},
             {"kind": 1, "p1": {"x": 64,"y": -2}, "p2": {"x": 69,"y": 1.25}},
@@ -18,7 +25,7 @@ var LEVEL_1_DATA = {
         "objectives": [
             {"kind": "coin", "topLeft": {"x": 70.5,"y": 2}},
             {"kind": "coin", "topLeft": {"x": 20,"y": .25}},
-            {"kind": "finish", "topLeft": {"x": 10,"y": .25}}
+            {"kind": "finish", "topLeft": {"x": 10,"y": 4.25}}
         ]
     }
 }

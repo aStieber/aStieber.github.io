@@ -29,5 +29,6 @@ function createObjectives(objectiveBody, levelData) {
     objective.m_objectiveFixture = objectiveBody.createFixture(objective.getPolygon(), objective.getFixtureDef());
     objectiveList.push(objective);
   });
+
   return objectiveList;
 }

@@ -52,9 +52,8 @@ class Painter {
     var context = this.getContext();
     context.font = "30px Arial";
     context.fillText(`Coins remaining: ${game.m_remainingCoins}`, 10, 50);
-    if (game.m_victory)
-      context.fillText('You won', 10, 80);
-    
+    context.fillText(game.m_levelData.level.text, 40, 500);
+
 
 
     context.font = "14px Arial";
@@ -66,6 +65,12 @@ class Painter {
       context.font = "200px Comic Sans";
       context.fillStyle = '#FF0000';
       context.fillText("u dead", 50, 300);
+      context.fillStyle = '#000000';
+    }
+    else if (game.m_victory) {
+      context.font = "270px Comic Sans";
+      context.fillStyle = '#22FF33';
+      context.fillText('Terrific', 2, 340);
       context.fillStyle = '#000000';
     }
   }
