@@ -11,9 +11,7 @@
 <script src="painter.js"></script>
 <script src="game.js"></script>
 <script src="history.js"></script>
-<script src="levels/level1.js"></script>
-<script src="levels/level2.js"></script>
-<script src="levels/levelDebug.js"></script>
+<script src="levels.js"></script>
 <script src="terrain.js"></script>
 <script src="objectives.js"></script>
 <canvas id="canvas" width="800" height="600" style="border:1px solid #d3d3d3;padding: 0;margin: auto;display: block;width: 800px;">Your browser does not support the HTML5 canvas tag.</canvas></body></html>
@@ -23,6 +21,7 @@ var pl = planck, Vec2 = pl.Vec2;
 var currentURL = url.parse(window.location.href);
 var levelData = null;
 switch (url.get(currentURL.query)['level']) {
+  case "3": {levelData = LEVEL_3_DATA; break;}
   case "2": {levelData = LEVEL_2_DATA; break;}
   case "0": {levelData = LEVEL_DEBUG_DATA; break;}
   case undefined:
@@ -54,7 +53,7 @@ var spacePressed = false;
 var ANGULAR_SPEED = 2.7;
 var AIR_SPEED = 2;
 function gameLoop() { 
-  //level change | levels: 1, 2
+  //level change | levels: 1, 2, 0
   for (var i = 0; i <= 9; i++) { if (keys[48 + i]) {goToLevel(i);return;}}
   //game reset
   if (keys[82]) { //r
