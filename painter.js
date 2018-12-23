@@ -45,7 +45,7 @@ class Painter {
     this.drawCircle(pos, marbleShape.m_radius);
     this.drawLine(pos, 
       Vec2( pos.x + Math.cos(marbleBody.getAngle()) * marbleShape.m_radius * 15, 
-            pos.y - Math.sin(marbleBody.getAngle()) * marbleShape.m_radius * 15), '#FF0000');
+            pos.y - Math.sin(marbleBody.getAngle()) * marbleShape.m_radius * 15), '#99C2FF');
   }
 
   drawUI(game) {
@@ -54,18 +54,27 @@ class Painter {
     context.fillText(`Coins remaining: ${game.m_remainingCoins}`, 10, 50);
     if (game.m_victory)
       context.fillText('You won', 10, 80);
+    
+
 
     context.font = "14px Arial";
-    context.fillText('Left/Right/Up: move', 280, 50)
-    context.fillText('Spacebar: warp to shadow (maintains velocity)', 280, 70)
-    context.fillText('Press [1, 2] to select level)', 280, 90)
+    context.fillText('Left/Right/Up: move', 280, 50);
+    context.fillText('Spacebar: warp to shadow (maintains velocity)', 280, 70);
+    context.fillText('R: reset', 280, 90);
+    context.fillText('Press [1, 2] to select level', 280, 110);
+    if (!game.m_alive) {
+      context.font = "200px Comic Sans";
+      context.fillStyle = '#FF0000';
+      context.fillText("u dead", 50, 300);
+      context.fillStyle = '#000000';
+    }
   }
 
   drawCircle(pos, rad, isShadow=false) {
     var context = this.getContext();
     context.beginPath();
     context.arc(pos.x, pos.y, rad * 15, 0, 360);
-    context.strokeStyle = isShadow ? '#770000' : '#FF0000';
+    context.strokeStyle = isShadow ? '#0066FF' : '#99C2FF';
     context.stroke();
     context.closePath();
   }

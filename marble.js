@@ -1,7 +1,7 @@
 var pl = planck, Vec2 = pl.Vec2;
 
 class Marble {
-  constructor(world) {
+  constructor(world, startingPos) {
     this.m_contactCount = 0;
     this.m_marbleBody = null;
     this.m_maxLinearVelocity = 1.5;
@@ -9,7 +9,7 @@ class Marble {
 
     var marbleFD = {"density": 2.0, "friction": .2};
 
-    this.m_marbleBody = world.createDynamicBody(Vec2(12.0, 1.0));
+    this.m_marbleBody = world.createDynamicBody(startingPos);
     this.m_marbleBody.setAngularDamping(.8);
     this.m_marbleBody.setSleepingAllowed(false);
     this.m_marbleBody.createFixture(pl.Circle(0.4), marbleFD);

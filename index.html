@@ -31,8 +31,6 @@ switch (+url.get(currentURL.query)['level']) {
   }
 }
 
-var game = new Game(levelData)
-
 //input
 var keys = []
 window.addEventListener("keydown", function(e) {
@@ -46,13 +44,22 @@ window.addEventListener('keyup', function(e) {
 var canvas = document.getElementById("canvas");
 var painter = new Painter(canvas);
 
+
+var game = new Game(levelData)
+
 //game loop
 var spacePressed = false;
-var ANGULAR_SPEED = 2.5;
+var ANGULAR_SPEED = 2.7;
 var AIR_SPEED = 2;
 function gameLoop() { 
   //level change | levels: 1, 2
   for (var i = 1; i <= 9; i++) { if (keys[48 + i]) {goToLevel(i);return;}}
+  //game reset
+  if (keys[82]) { //r
+    delete game;
+    game = new Game(levelData);
+    return;
+  }
   //marble controls
   if (keys[39]) { //right
     game.m_marble.applyAngularForce(-ANGULAR_SPEED);

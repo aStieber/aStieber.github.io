@@ -22,6 +22,7 @@ class Game {
     this.m_frameHistory = new History();
     //misc
     this.m_victory = false;
+    this.m_alive = true;
   }
 
   onCollectCoin(objID) {
@@ -64,15 +65,21 @@ class Game {
   addWorldListeners() {
     this.m_world.on('begin-contact', (contact) => {
       var userData = contact.getFixtureA().getUserData();
-      if (userData.kind === "coin")
+      if (userData.objID !== undefined) { //if objective
+        if (userData.kind === "coin")
         this.onCollectCoin(userData.objID);
-      else if (userData.kind === "finish")
-        this.onReachedFinish();
-      else this.m_marble.m_contactCount++;
+        else if (userData.kind === "finish")
+          this.onReachedFinish();
+      }
+      else if (userData.tileID !== undefined) { //if terrain
+        if (userData.kind === TK.LAVA)
+          this.m_alive = false;
+        this.m_marble.m_contactCount++;
+      }
     });
     this.m_world.on('end-contact', (contact) => {
       var userData = contact.getFixtureA().getUserData();
-      if (!(userData.kind === "coin" || userData.kind === "finish")) {
+      if (userData.tileID !== undefined) {
         this.m_marble.m_contactCount--;
       }
     });
