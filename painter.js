@@ -59,7 +59,7 @@ class Painter {
     context.fillText('Left/Right/Up: move', 280, 50);
     context.fillText('Spacebar: warp to shadow (maintains momentum)', 280, 70);
     context.fillText('R: reset', 280, 90);
-    context.fillText('Press [1, 2] to select level', 280, 110);
+    context.fillText('Press [1, 2, 3] to select level', 280, 110);
     if (!game.m_alive) {
       context.font = "200px Comic Sans";
       context.fillStyle = '#FF0000';

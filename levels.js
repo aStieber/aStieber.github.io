@@ -1,7 +1,7 @@
 var LEVEL_1_DATA = {
     "level": {
         "id": 1,
-        "text": "Level 1 - Momentum (shadow not needed)",
+        "text": "Level 1 - Just Rollin'",
         "revertCount": 0,
         "marbleStart": {"x": 12, "y": 1},
         "terrain": [
@@ -59,7 +59,7 @@ var LEVEL_3_DATA = {
         "id": 1,
         "text": "A Lesson In Momentum",
         "revertCount": 1,
-        "marbleStart": {"x": 4, "y": 7},
+        "marbleStart": {"x": 4.5, "y": 7},
         "terrain": [
             {"kind": 2, "p1": {"x": 3.75, "y": 8}, "p2": {"x": 3.75, "y": 2}},
             {"kind": 2, "p1": {"x": 3.75, "y": 2}, "p2": {"x": 4.5, "y": 0}},

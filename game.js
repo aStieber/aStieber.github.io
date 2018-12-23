@@ -78,13 +78,16 @@ class Game {
       else if (userData.tileID !== undefined) { //if terrain
         if (userData.kind === TK.LAVA)
           this.m_alive = false;
-        this.m_marble.m_contactCount++;
+        if (contact.getManifold().localNormal.y > 0.45) {
+          this.m_marble.m_contactCount++;
+        }
       }
     });
     this.m_world.on('end-contact', (contact) => {
       var userData = contact.getFixtureA().getUserData();
       if (userData.tileID !== undefined) {
-        this.m_marble.m_contactCount--;
+        if (this.m_marble.m_contactCount > 0)
+          this.m_marble.m_contactCount--;
       }
     });
   }
