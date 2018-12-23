@@ -1,34 +1,45 @@
 var pl = planck, Vec2 = pl.Vec2;
 
 class Game {
-  constructor(world, levelData) {
-    this.m_marble = new Marble(world, levelData.level.marbleStart);
+  constructor(levelData) {
+    //world
+    this.m_world = new pl.World({
+      gravity : Vec2(0, -10)
+    });
+    this.addWorldListeners();
+    //marble
+    this.m_marble = new Marble(this.m_world, levelData.level.marbleStart);
     //terrain
-    this.m_terrainBody = world.createBody({userData: "ground"});
+    this.m_terrainBody = this.m_world.createBody({userData: "ground"});
     this.m_terrainTiles = createTerrain(this.m_terrainBody, levelData);
-
-    this.m_objectiveBody = world.createBody();
+    //objectives
+    this.m_objectiveBody = this.m_world.createBody();
     this.m_objectives = createObjectives(this.m_objectiveBody, levelData);
-    
     this.m_remainingCoins = 0;
     this.m_objectives.forEach((o) => {if (o.m_kind === "coin" && o.m_isVisible) this.m_remainingCoins++;});
-
     this.m_doomedObjectiveIDs = [] 
+    //history
+    this.m_frameHistory = new History();
+    //misc
     this.m_victory = false;
   }
 
-  collectCoin(objID) {
+  onCollectCoin(objID) {
     this.m_doomedObjectiveIDs.push(objID);
   }
 
-  reachedFinish() {
+  onReachedFinish() {
     if (this.m_remainingCoins === 0)
       this.m_victory = true;
   }
 
+  onRevertToFrame() {
+    this.m_marble.setPosition(this.m_frameHistory.getOldFrame(2., true))
+
+  }
+
   update() {
-    //clear body
-    //update remaining coins
+    //clear doomed fixtures
     var objID = -1;
     var destroyedCoins = 0;
     while((objID = this.m_doomedObjectiveIDs.pop()) != null){ 
@@ -38,9 +49,33 @@ class Game {
           obj.m_isVisible = false;
           this.m_objectiveBody.destroyFixture(obj.m_objectiveFixture);
         }
-      });
+      });2
     }
+    //physics step
+    this.m_world.step(1/60);
+    //save frame to history
+    this.m_frameHistory.storeFrame(this.m_marble.getPosition());
+    //update remaining coins
     this.m_remainingCoins -= destroyedCoins;
+  }
+
+
+
+  addWorldListeners() {
+    this.m_world.on('begin-contact', (contact) => {
+      var userData = contact.getFixtureA().getUserData();
+      if (userData.kind === "coin")
+        this.onCollectCoin(userData.objID);
+      else if (userData.kind === "finish")
+        this.onReachedFinish();
+      else this.m_marble.m_contactCount++;
+    });
+    this.m_world.on('end-contact', (contact) => {
+      var userData = contact.getFixtureA().getUserData();
+      if (!(userData.kind === "coin" || userData.kind === "finish")) {
+        this.m_marble.m_contactCount--;
+      }
+    });
   }
 }
 

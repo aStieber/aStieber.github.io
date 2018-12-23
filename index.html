@@ -3,46 +3,36 @@
 -->
 <html><head>
   <meta name="viewport" content="width=device-width">
-  <title>Car - Planck.js</title>
+  <title>Marble game</title>
 </head><body style="background-color: #333">
 <script src="planck.js"></script>
+<script src="url.js"></script>
 <script src="marble.js"></script>
 <script src="painter.js"></script>
 <script src="game.js"></script>
 <script src="history.js"></script>
 <script src="levels/level1.js"></script>
+<script src="levels/level2.js"></script>
 <script src="terrain.js"></script>
 <script src="objectives.js"></script>
 <canvas id="canvas" width="800" height="600" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas></body></html>
 <script>
 var pl = planck, Vec2 = pl.Vec2;
-
-var world = new pl.World({
-  gravity : Vec2(0, -10)
-});
-
-var ANGULAR_SPEED = 2.5;
-var AIR_SPEED = 2;
-
-var game = new Game(world, LEVEL_1_DATA)
-var doomedObjectives = []
-
-world.on('begin-contact', function(contact) {
-  var userData = contact.getFixtureA().getUserData();
-  if (userData.kind === "coin") {
-    game.collectCoin(userData.objID);
+//load level
+var currentURL = url.parse(window.location.href);
+var levelData = null;
+switch (+url.get(currentURL.query)['level']) {
+  case 2: {levelData = LEVEL_2_DATA; break;}
+  case undefined:
+  case 1: {levelData = LEVEL_1_DATA; break;}
+  default: {
+    alert("Invalid level ID.");
+    levelData = LEVEL_1_DATA;
   }
-  else if (userData.kind === "finish") {
-    game.reachedFinish()
-  }
-  else game.m_marble.m_contactCount++;
-});
-world.on('end-contact', function(contact) {
-  var userData = contact.getFixtureA().getUserData();
-  if (!(userData.kind === "coin" || userData.kind === "finish")) {
-    game.m_marble.m_contactCount--;
-  }
-});
+}
+
+var game = new Game(levelData)
+
 //input
 var keys = []
 window.addEventListener("keydown", function(e) {
@@ -56,37 +46,42 @@ window.addEventListener('keyup', function(e) {
 var canvas = document.getElementById("canvas");
 var painter = new Painter(canvas);
 
-//history
-var frameHistory = new History();
 //game loop
 var spacePressed = false;
+var ANGULAR_SPEED = 2.5;
+var AIR_SPEED = 2;
 function gameLoop() { 
-
+  //level change | levels: 1, 2
+  for (var i = 1; i <= 9; i++) { if (keys[48 + i]) {goToLevel(i);return;}}
+  //marble controls
   if (keys[39]) { //right
     game.m_marble.applyAngularForce(-ANGULAR_SPEED);
     if (!game.m_marble.isTouchingGround()) game.m_marble.applyLinearForce(Vec2(AIR_SPEED, 0));
   }
-  else if (keys[37]) {
+  else if (keys[37]) { //left
     game.m_marble.applyAngularForce(ANGULAR_SPEED);
     if (!game.m_marble.isTouchingGround()) game.m_marble.applyLinearForce(Vec2(-AIR_SPEED, 0));
   } 
 
-  if (keys[38] && game.m_marble.isTouchingGround()) {
+  if (keys[38] && game.m_marble.isTouchingGround()) { //up
     game.m_marble.jump();        
   }
 
-  if (keys[32] && !spacePressed) {
+  if (keys[32] && !spacePressed) { //spacebar
     spacePressed = true;
-    game.m_marble.setPosition(frameHistory.getOldFrame(2., true))
+    game.onRevertToFrame();
   }
   if (!keys[32]) spacePressed = false;
 
-  world.step(1/60);
+  
   game.update();
-  frameHistory.storeFrame(game.m_marble.getPosition());
-  painter.drawGame(game, frameHistory);
+  painter.drawGame(game);
 };
 
 setInterval(gameLoop, 1000 / 60);
     
+function goToLevel(levelID) {
+  currentURL.level = levelID
+  window.location.href = url.build({url: currentURL.url, get: {level: levelID}});
+}
 </script>

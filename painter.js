@@ -6,12 +6,12 @@ class Painter {
     this.m_height = canvas.height;
   }
 
-  drawGame(game, history) {
+  drawGame(game) {
     this.getContext().clearRect(0, 0, this.m_width, this.m_width);
     //terrain
     this.drawTerrain(game);
     this.drawObjectives(game);
-    this.drawMarble(game, history);
+    this.drawMarble(game);
     this.drawUI(game);
   }
 
@@ -33,11 +33,11 @@ class Painter {
     });
   }
 
-  drawMarble(game, history) {
+  drawMarble(game) {
     //shadow
     var marbleBody = game.m_marble.m_marbleBody;
     var marbleShape = marbleBody.m_fixtureList.getShape();
-    var shadowPos = this.translatePosition(history.getOldFrame(2.));
+    var shadowPos = this.translatePosition(game.m_frameHistory.getOldFrame(2.));
     this.drawCircle(shadowPos, marbleShape.m_radius, true);
 
     //marble
@@ -58,6 +58,7 @@ class Painter {
     context.font = "14px Arial";
     context.fillText('Left/Right/Up: move', 280, 50)
     context.fillText('Spacebar: warp to shadow (maintains velocity)', 280, 70)
+    context.fillText('Press [1, 2] to select level)', 280, 90)
   }
 
   drawCircle(pos, rad, isShadow=false) {
