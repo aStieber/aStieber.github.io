@@ -2,7 +2,7 @@ var LEVEL_DEBUG_DATA = {
     "level": {
         "id": 1,
         "text": "Debug Level",
-        "revertCount": 1,
+        "revertCount": 9999,
         "marbleStart": {"x": 10, "y": 1},
         "terrain": [
             {"kind": 1, "p1": {"x": 0, "y": 0}, "p2": {"x": 25,"y": 0}},

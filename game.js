@@ -24,6 +24,7 @@ class Game {
     this.m_levelData = levelData;
     this.m_victory = false;
     this.m_alive = true;
+    this.m_remainingReverts = levelData.level.revertCount;
   }
 
   onCollectCoin(objID) {
@@ -36,8 +37,10 @@ class Game {
   }
 
   onRevertToFrame() {
-    this.m_marble.setPosition(this.m_frameHistory.getOldFrame(2., true))
-
+    if (this.m_remainingReverts > 0) {
+      this.m_marble.setPosition(this.m_frameHistory.getOldFrame(2., true))
+      this.m_remainingReverts--;
+    }
   }
 
   update() {
