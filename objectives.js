@@ -24,7 +24,7 @@ class Objective {
 
 function createObjectives(objectiveBody, levelData) {
   var objectiveList = []
-  levelData.level.objectives.forEach(function(objectiveDef) {
+  levelData.objectives.forEach(function(objectiveDef) {
     var objective = new Objective(objectiveDef);
     objective.m_objectiveFixture = objectiveBody.createFixture(objective.getPolygon(), objective.getFixtureDef());
     objectiveList.push(objective);

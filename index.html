@@ -14,23 +14,20 @@
 <script src="levels.js"></script>
 <script src="terrain.js"></script>
 <script src="objectives.js"></script>
+<script src="dynamics.js"></script>
 <canvas id="canvas" width="800" height="600" style="border:1px solid #d3d3d3;padding: 0;margin: auto;display: block;width: 800px;">Your browser does not support the HTML5 canvas tag.</canvas></body></html>
 <script>
 var pl = planck, Vec2 = pl.Vec2;
 //load level
 var currentURL = url.parse(window.location.href);
-var levelData = null;
-switch (url.get(currentURL.query)['level']) {
-  case "3": {levelData = LEVEL_3_DATA; break;}
-  case "2": {levelData = LEVEL_2_DATA; break;}
-  case "0": {levelData = LEVEL_DEBUG_DATA; break;}
-  case undefined:
-  case "1": {levelData = LEVEL_1_DATA; break;}
-  default: {
-    alert("Invalid level ID.");
-    levelData = LEVEL_1_DATA;
-  }
-}
+var levelID = parseInt(url.get(currentURL.query)['level']);
+var levelIdToIndex = {};
+LEVELS_DATA.levels.forEach((level, index) => {
+  levelIdToIndex[level.id] = index;
+});
+if (isNaN(levelID) || levelIdToIndex[levelID] === undefined) 
+  levelID = 1;
+var levelData = LEVELS_DATA.levels[levelIdToIndex[levelID]];
 
 //input
 var keys = []

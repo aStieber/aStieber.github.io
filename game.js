@@ -8,7 +8,7 @@ class Game {
     });
     this.addWorldListeners();
     //marble
-    this.m_marble = new Marble(this.m_world, levelData.level.marbleStart);
+    this.m_marble = new Marble(this.m_world, levelData.marbleStart);
     //terrain
     this.m_terrainBody = this.m_world.createBody({userData: "ground"});
     this.m_terrainTiles = createTerrain(this.m_terrainBody, levelData);
@@ -17,14 +17,17 @@ class Game {
     this.m_objectives = createObjectives(this.m_objectiveBody, levelData);
     this.m_remainingCoins = 0;
     this.m_objectives.forEach((o) => {if (o.m_kind === "coin" && o.m_isVisible) this.m_remainingCoins++;});
-    this.m_doomedObjectiveIDs = [] 
+    this.m_doomedObjectiveIDs = [];
+
+    //dynamics
+    this.m_dynamics = createDynamics(this.m_world, levelData);
     //history
     this.m_frameHistory = new History();
     //misc
     this.m_levelData = levelData;
     this.m_victory = false;
     this.m_alive = true;
-    this.m_remainingReverts = levelData.level.revertCount;
+    this.m_remainingReverts = levelData.revertCount;
   }
 
   onCollectCoin(objID) {

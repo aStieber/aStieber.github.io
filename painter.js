@@ -53,7 +53,7 @@ class Painter {
     context.font = "30px Arial";
     context.fillText(`Coins remaining: ${game.m_remainingCoins}`, 10, 50);
     context.fillText(`Warps remaining: ${game.m_remainingReverts}`, 10, 80);
-    context.fillText(game.m_levelData.level.text, 40, 500);
+    context.fillText(game.m_levelData.text, 40, 500);
 
     context.font = "14px Arial";
     context.fillText('Left/Right/Up: move', 280, 50);

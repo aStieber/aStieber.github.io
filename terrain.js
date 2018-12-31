@@ -1,5 +1,5 @@
 var pl = planck, Vec2 = pl.Vec2;
-var TK = {NONE: 0, GROUND: 1, ICE: 2, GLUE: 3, LAVA: 4};
+var TK = {NONE: "none", GROUND: "ground", ICE: "ice", GLUE: "glue", LAVA: "lava"};
 
 var GLOBAL_TILE_COUNT = 0;
 class Tile {
@@ -32,7 +32,7 @@ class Tile {
 
 function createTerrain(ground, levelData) {
   var terrainTiles = [];
-  levelData.level.terrain.forEach(function(tileDef) {
+  levelData.terrain.forEach(function(tileDef) {
     var tile = new Tile(tileDef);
     terrainTiles.push(tile);
     if (tile.m_kind !== TK.NONE)
