@@ -9,10 +9,22 @@ class Painter {
   drawGame(game) {
     this.getContext().clearRect(0, 0, this.m_width, this.m_width);
     //terrain
+    this.drawDynamics(game);
     this.drawTerrain(game);
     this.drawObjectives(game);
     this.drawMarble(game);
     this.drawUI(game);
+  }
+  
+  drawDynamics(game) {
+    if (game.m_dynamics === undefined) return;
+    game.m_dynamics.forEach((dynamicBody) => {
+      if (dynamicBody.getUserData().kind === "seesaw") {
+        this.drawLine(this.translatePosition(Vec2(dynamicBody.getShape().m_vertices[2].x + dynamicBody.m_body.m_xf.p.x, dynamicBody.getShape().m_vertices[2].y + dynamicBody.m_body.m_xf.p.y)),
+                      this.translatePosition(Vec2(dynamicBody.getShape().m_vertices[3].x + dynamicBody.m_body.m_xf.p.x, dynamicBody.getShape().m_vertices[3].y + dynamicBody.m_body.m_xf.p.y)),
+                       "#FFFFFF");
+      }
+    });
   }
 
   drawTerrain(game) {

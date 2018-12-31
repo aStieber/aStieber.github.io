@@ -16,9 +16,10 @@ class Objective {
   }
 
   getFixtureDef() {
+    var userData = {type: "objective", kind: this.m_kind, objID: this.m_objectiveID};
     if (this.m_kind === "coin")
-      return {userData: {kind: this.m_kind, objID: this.m_objectiveID}, isSensor: true}
-    return {userData: {kind: this.m_kind, objID: this.m_objectiveID}};
+      return {userData, isSensor: true}
+    return {userData};
   }
 }
 

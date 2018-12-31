@@ -53,18 +53,24 @@ var LEVELS_DATA = {"levels": [
         "id": 3,
         "text": "Beginner 1 - A Lesson In Position",
         "revertCount": 1,
-        "marbleStart": {"x": 4.5, "y": 7},
+        "marbleStart": {"x": 10, "y": 1},
         "terrain": [
-            {"kind": "ice", "p1": {"x": 3.75, "y": 8}, "p2": {"x": 3.75, "y": 2}},
+            {"kind": "ground", "p1": {"x": 0, "y": 0}, "p2": {"x": 25,"y": 0}},
+            {"kind": "ice", "p1": {"x": 25, "y": 0}, "p2": {"x": 40,"y": 0}},
+            {"kind": "glue", "p1": {"x": 40, "y": 0}, "p2": {"x": 55,"y": 0}},
+            {"kind": "lava", "p1": {"x": 55, "y": 0}, "p2": {"x": 70,"y": 0}},
+        ],
+        "dynamics": [
+            {"kind": "seesaw", "fulcrum": {"x": 40, "y": .5}, "leftLength": 12.5}
         ],
         "objectives": [
-            {"kind": "coin", "topLeft": {"x": 40,"y": -6}},
-            {"kind": "finish", "topLeft": {"x": 40,"y": -8}}
+            {"kind": "coin", "topLeft": {"x": 5,"y": 1}},
+            {"kind": "finish", "topLeft": {"x": 2,"y": 1}}
         ]
     }
     ,{
         "id": 4,
-        "text": "Beginner 1 - A Lesson In Momentum",
+        "text": "Beginner 2 - A Lesson In Momentum",
         "revertCount": 1,
         "marbleStart": {"x": 4.5, "y": 7},
         "terrain": [
@@ -81,9 +87,6 @@ var LEVELS_DATA = {"levels": [
             {"kind": "ice", "p1": {"x": 54, "y": -3.5}, "p2": {"x": 54, "y": 0}},
 
             {"kind": "ground", "p1": {"x": 39.5, "y": -8.25}, "p2": {"x": 41, "y": -8.25}},
-        ],
-        "dynamics": [
-            {"kind": "seesaw", "fulcrum": {"x": 40, "y": 0}, "leftLength": 12.5}
         ],
         "objectives": [
             {"kind": "coin", "topLeft": {"x": 53,"y": -2.75}},

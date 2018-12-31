@@ -20,7 +20,8 @@ class Game {
     this.m_doomedObjectiveIDs = [];
 
     //dynamics
-    this.m_dynamics = createDynamics(this.m_world, levelData);
+    //each dynamic needs its own body
+    this.m_dynamics = createDynamics(this.m_world, this.m_terrainBody, levelData);
     //history
     this.m_frameHistory = new History();
     //misc
@@ -72,23 +73,28 @@ class Game {
   addWorldListeners() {
     this.m_world.on('begin-contact', (contact) => {
       var userData = contact.getFixtureA().getUserData();
-      if (userData.objID !== undefined) { //if objective
+      if (userData.type === "objective") { //if objective
+        console.log("hit objective");
         if (userData.kind === "coin")
         this.onCollectCoin(userData.objID);
         else if (userData.kind === "finish")
           this.onReachedFinish();
       }
-      else if (userData.tileID !== undefined) { //if terrain
+      else if (userData.type === "terrain") { //if terrain
+        console.log("hit terrain");
         if (userData.kind === TK.LAVA)
           this.m_alive = false;
         if (contact.getManifold().localNormal.y > 0.45) {
           this.m_marble.m_contactCount++;
         }
       }
+      else if (userData.type === "dynamic") {
+        console.log("hit dynamic");
+      }
     });
     this.m_world.on('end-contact', (contact) => {
       var userData = contact.getFixtureA().getUserData();
-      if (userData.tileID !== undefined) {
+      if (userData.type === "terrain") {
         if (this.m_marble.m_contactCount > 0)
           this.m_marble.m_contactCount--;
       }

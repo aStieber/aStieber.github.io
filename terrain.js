@@ -11,12 +11,13 @@ class Tile {
     GLOBAL_TILE_COUNT++;
   }
   getKindFD() {
+    var userData = {type: "terrain", kind: this.m_kind, tileID: this.m_tileID};
     switch (this.m_kind) {
-      case TK.GROUND: return {density: 0.0, friction: 0.6, userData: {kind: this.m_kind, tileID: this.m_tileID}};
-      case TK.ICE: return {density: 0.0, friction: 0.2, userData: {kind: this.m_kind, tileID: this.m_tileID}};
-      case TK.GLUE: return {density: 0.0, friction: 10., userData: {kind: this.m_kind, tileID: this.m_tileID}};
-      case TK.LAVA: return {density: 0.0, friction: 0.0, userData: {kind: this.m_kind, tileID: this.m_tileID}};
-      default: return {density: 0.0, friction: 1.0, userData: {kind: this.m_kind, tileID: this.m_tileID}};
+      case TK.GROUND: return {density: 0.0, friction: 0.6, userData};
+      case TK.ICE: return {density: 0.0, friction: 0.2, userData};
+      case TK.GLUE: return {density: 0.0, friction: 10., userData};
+      case TK.LAVA: return {density: 0.0, friction: 0.0, userData};
+      default: return {density: 0.0, friction: 1.0, userData};
     }
   }
   getColor() {
