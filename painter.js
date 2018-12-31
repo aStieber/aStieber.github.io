@@ -18,11 +18,42 @@ class Painter {
   
   drawDynamics(game) {
     if (game.m_dynamics === undefined) return;
-    game.m_dynamics.forEach((dynamicBody) => {
-      if (dynamicBody.getUserData().kind === "seesaw") {
-        this.drawLine(this.translatePosition(Vec2(dynamicBody.getShape().m_vertices[2].x + dynamicBody.m_body.m_xf.p.x, dynamicBody.getShape().m_vertices[2].y + dynamicBody.m_body.m_xf.p.y)),
-                      this.translatePosition(Vec2(dynamicBody.getShape().m_vertices[3].x + dynamicBody.m_body.m_xf.p.x, dynamicBody.getShape().m_vertices[3].y + dynamicBody.m_body.m_xf.p.y)),
-                       "#FFFFFF");
+    game.m_dynamics.forEach((dynamic) => {
+      if (dynamic.getUserData().kind === "seesaw") {
+        var context = this.getContext();
+        context.beginPath();
+        var center = this.translatePosition(dynamic.getBody().getPosition());
+        var angle = dynamic.getBody().getAngle();
+        context.translate(center.x, center.y);
+        context.rotate(-angle);
+        context.beginPath();
+        var x = dynamic.getShape().getVertex(0).x;
+        var y = dynamic.getShape().getVertex(0).y;
+        var rectWidth = this.translateX(Math.abs(dynamic.getShape().getVertex(1).x - x));
+        var rectHeight = this.translateY(Math.abs(dynamic.getShape().getVertex(1).y - y)) - (this.m_height / 2);
+        console.log(x, y, rectWidth, rectHeight)
+        context.rect(this.translateX(x), y, rectWidth, rectHeight);
+        context.strokeStyle = "#FFFFFF";
+        context.stroke();
+        context.closePath();
+
+        /*
+        this.drawLine(Vec2(dynamic.getShape().m_vertices[0].x, dynamic.getShape().m_vertices[0].y + dynamic.m_body.m_xf.p.y),
+                      Vec2(dynamic.getShape().m_vertices[1].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[1].y + dynamic.m_body.m_xf.p.y),
+                      "#FFFFFF");
+        this.drawLine(Vec2(dynamic.getShape().m_vertices[1].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[1].y + dynamic.m_body.m_xf.p.y),
+                      Vec2(dynamic.getShape().m_vertices[2].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[2].y + dynamic.m_body.m_xf.p.y),
+                      "#FFFFFF");   
+        this.drawLine(Vec2(dynamic.getShape().m_vertices[2].x, dynamic.getShape().m_vertices[2].y),
+                      Vec2(dynamic.getShape().m_vertices[3].x, dynamic.getShape().m_vertices[3].y),
+                      "#FFFFFF");
+        this.drawLine(Vec2(dynamic.getShape().m_vertices[3].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[3].y + dynamic.m_body.m_xf.p.y),
+                      "#FFFFFF");   
+        */
+        context.closePath();
+        context.rotate(angle);
+        context.translate(-center.x, -center.y);
+     
       }
     });
   }
@@ -116,7 +147,15 @@ class Painter {
   }
 
   translatePosition(worldPos) {
-    return Vec2(worldPos.x * this.m_width / 80, worldPos.y * (-this.m_height / 30) + (this.m_height / 2));
+    return Vec2(this.translateX(worldPos.x), this.translateY(worldPos.y));
+  }
+
+  translateX(x_phys) {
+    return x_phys * this.m_width / 80;
+  }
+
+  translateY(y_phys) {
+    return y_phys * (-this.m_height / 30) + (this.m_height / 2)
   }
 
   getContext() {

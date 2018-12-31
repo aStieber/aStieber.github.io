@@ -61,7 +61,7 @@ var LEVELS_DATA = {"levels": [
             {"kind": "lava", "p1": {"x": 55, "y": 0}, "p2": {"x": 70,"y": 0}},
         ],
         "dynamics": [
-            {"kind": "seesaw", "fulcrum": {"x": 40, "y": .5}, "leftLength": 12.5}
+            {"kind": "seesaw", "fulcrum": {"x": 20, "y": .5}, "leftLength": 12.5}
         ],
         "objectives": [
             {"kind": "coin", "topLeft": {"x": 5,"y": 1}},
