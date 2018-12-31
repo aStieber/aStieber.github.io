@@ -6,8 +6,7 @@ function createDynamics(world, terrainBody, levelData) {
     levelData.dynamics.forEach((dynamic) => {
         if (dynamic.kind === "seesaw") {
             var seesawBody = world.createDynamicBody(dynamic.fulcrum);
-            seesawBody.setSleepingAllowed(false);
-            var fixture = seesawBody.createFixture(pl.Box(5., 0.1), {density: 0.5, userData: {type: "dynamic", kind: "seesaw"}});
+            var fixture = seesawBody.createFixture(pl.Box(5., 0.05), {density: 0.5, userData: {type: "dynamic", kind: "seesaw"}});
             world.createJoint(pl.RevoluteJoint({
                 lowerAngle : -8.0 * Math.PI / 180.0,
                 upperAngle : 8.0 * Math.PI / 180.0,

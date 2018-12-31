@@ -59,6 +59,7 @@ var LEVELS_DATA = {"levels": [
             {"kind": "ice", "p1": {"x": 25, "y": 0}, "p2": {"x": 40,"y": 0}},
             {"kind": "glue", "p1": {"x": 40, "y": 0}, "p2": {"x": 55,"y": 0}},
             {"kind": "lava", "p1": {"x": 55, "y": 0}, "p2": {"x": 70,"y": 0}},
+            {"kind": "lava", "p1": {"x": 20, "y": .5}, "p2": {"x": 20,"y": -3}},
         ],
         "dynamics": [
             {"kind": "seesaw", "fulcrum": {"x": 20, "y": .5}, "leftLength": 12.5}

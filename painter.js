@@ -22,38 +22,25 @@ class Painter {
       if (dynamic.getUserData().kind === "seesaw") {
         var context = this.getContext();
         context.beginPath();
+        //center & rotate our context
         var center = this.translatePosition(dynamic.getBody().getPosition());
         var angle = dynamic.getBody().getAngle();
         context.translate(center.x, center.y);
         context.rotate(-angle);
         context.beginPath();
+        //get top left
         var x = dynamic.getShape().getVertex(0).x;
         var y = dynamic.getShape().getVertex(0).y;
         var rectWidth = this.translateX(Math.abs(dynamic.getShape().getVertex(1).x - x));
-        var rectHeight = this.translateY(Math.abs(dynamic.getShape().getVertex(1).y - y)) - (this.m_height / 2);
-        console.log(x, y, rectWidth, rectHeight)
+        var rectHeight = this.translateY(Math.abs(dynamic.getShape().getVertex(3).y - y)) - (this.m_height / 2.);
         context.rect(this.translateX(x), y, rectWidth, rectHeight);
         context.strokeStyle = "#FFFFFF";
         context.stroke();
         context.closePath();
-
-        /*
-        this.drawLine(Vec2(dynamic.getShape().m_vertices[0].x, dynamic.getShape().m_vertices[0].y + dynamic.m_body.m_xf.p.y),
-                      Vec2(dynamic.getShape().m_vertices[1].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[1].y + dynamic.m_body.m_xf.p.y),
-                      "#FFFFFF");
-        this.drawLine(Vec2(dynamic.getShape().m_vertices[1].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[1].y + dynamic.m_body.m_xf.p.y),
-                      Vec2(dynamic.getShape().m_vertices[2].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[2].y + dynamic.m_body.m_xf.p.y),
-                      "#FFFFFF");   
-        this.drawLine(Vec2(dynamic.getShape().m_vertices[2].x, dynamic.getShape().m_vertices[2].y),
-                      Vec2(dynamic.getShape().m_vertices[3].x, dynamic.getShape().m_vertices[3].y),
-                      "#FFFFFF");
-        this.drawLine(Vec2(dynamic.getShape().m_vertices[3].x + dynamic.m_body.m_xf.p.x, dynamic.getShape().m_vertices[3].y + dynamic.m_body.m_xf.p.y),
-                      "#FFFFFF");   
-        */
         context.closePath();
+        //undo context changes
         context.rotate(angle);
         context.translate(-center.x, -center.y);
-     
       }
     });
   }
@@ -151,11 +138,11 @@ class Painter {
   }
 
   translateX(x_phys) {
-    return x_phys * this.m_width / 80;
+    return x_phys * this.m_width / 80.;
   }
 
   translateY(y_phys) {
-    return y_phys * (-this.m_height / 30) + (this.m_height / 2)
+    return y_phys * (-this.m_height / 30.) + (this.m_height / 2.)
   }
 
   getContext() {
