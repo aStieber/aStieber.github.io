@@ -8,7 +8,7 @@ class Painter {
 
   drawGame(game) {
     this.getContext().clearRect(0, 0, this.m_width, this.m_width);
-    //terrain
+    //order = layers
     this.drawDynamics(game);
     this.drawTerrain(game);
     this.drawObjectives(game);
@@ -32,7 +32,7 @@ class Painter {
         var x = dynamic.getShape().getVertex(0).x;
         var y = dynamic.getShape().getVertex(0).y;
         var rectWidth = this.translateX(Math.abs(dynamic.getShape().getVertex(1).x - x));
-        var rectHeight = this.translateY(Math.abs(dynamic.getShape().getVertex(3).y - y)) - (this.m_height / 2.); //
+        var rectHeight = this.translateY(Math.abs(dynamic.getShape().getVertex(3).y - y)) - (this.m_height / 2.); //fuck
         context.rect(this.translateX(x), y, rectWidth, rectHeight);
         context.strokeStyle = "#FFFFFF";
         context.stroke();
@@ -73,9 +73,9 @@ class Painter {
     //marble
     var pos = this.translatePosition(marbleBody.getPosition());
     this.drawCircle(pos, marbleShape.m_radius);
-    this.drawLine(pos, 
-      Vec2( pos.x + Math.cos(marbleBody.getAngle()) * marbleShape.m_radius * 15, 
-            pos.y - Math.sin(marbleBody.getAngle()) * marbleShape.m_radius * 15), '#99C2FF');
+    this.drawLine(pos, Vec2(pos.x + Math.cos(marbleBody.getAngle()) * marbleShape.m_radius * 15, 
+                            pos.y - Math.sin(marbleBody.getAngle()) * marbleShape.m_radius * 15),
+                            "#99C2FF");
   }
 
   drawUI(game) {
@@ -83,13 +83,14 @@ class Painter {
     context.font = "30px Arial";
     context.fillText(`Coins remaining: ${game.m_remainingCoins}`, 10, 50);
     context.fillText(`Warps remaining: ${game.m_remainingReverts}`, 10, 80);
+    context.fillText(`Contact count: ${game.m_marble.m_contactList.length}`, 10, 110);
     context.fillText(game.m_levelData.text, 40, 500);
 
     context.font = "14px Arial";
     context.fillText('Left/Right/Up: move', 280, 50);
     context.fillText('Spacebar: warp to shadow (maintains momentum)', 280, 70);
     context.fillText('R: reset', 280, 90);
-    context.fillText('Press [1, 2, 3] to select level', 280, 110);
+    context.fillText('Press a number to select level.', 280, 110);
     if (!game.m_alive) {
       context.font = "200px Comic Sans";
       context.fillStyle = '#FF0000';

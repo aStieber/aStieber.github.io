@@ -29,6 +29,7 @@ class Game {
     this.m_victory = false;
     this.m_alive = true;
     this.m_remainingReverts = levelData.revertCount;
+    this.contactMap = {};
   }
 
   onCollectCoin(objID) {
@@ -58,7 +59,7 @@ class Game {
           obj.m_isVisible = false;
           this.m_objectiveBody.destroyFixture(obj.m_objectiveFixture);
         }
-      });2
+      });
     }
     //physics step
     this.m_world.step(1/60);
@@ -69,14 +70,13 @@ class Game {
   }
 
 
-
   addWorldListeners() {
     this.m_world.on('begin-contact', (contact) => {
       var userData = contact.getFixtureA().getUserData();
       if (userData.type === "objective") { //if objective
         console.log("hit objective");
         if (userData.kind === "coin")
-        this.onCollectCoin(userData.objID);
+          this.onCollectCoin(userData.id);
         else if (userData.kind === "finish")
           this.onReachedFinish();
       }
@@ -85,18 +85,20 @@ class Game {
         if (userData.kind === TK.LAVA)
           this.m_alive = false;
         if (contact.getManifold().localNormal.y > 0.45) {
-          this.m_marble.m_contactCount++;
+          this.m_marble.addContact(userData.id);
         }
       }
       else if (userData.type === "dynamic") {
         console.log("hit dynamic");
+        if (contact.getManifold().localNormal.y > 0.45) {
+          this.m_marble.addContact(userData.id);
+        }
       }
     });
     this.m_world.on('end-contact', (contact) => {
       var userData = contact.getFixtureA().getUserData();
-      if (userData.type === "terrain") {
-        if (this.m_marble.m_contactCount > 0)
-          this.m_marble.m_contactCount--;
+      if (userData.type === "terrain" || userData.type === "dynamic") {
+        this.m_marble.removeContact(userData.id);
       }
     });
   }

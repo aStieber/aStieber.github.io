@@ -20,14 +20,10 @@
 var pl = planck, Vec2 = pl.Vec2;
 //load level
 var currentURL = url.parse(window.location.href);
-var levelID = parseInt(url.get(currentURL.query)['level']);
-var levelIdToIndex = {};
-LEVELS_DATA.levels.forEach((level, index) => {
-  levelIdToIndex[level.id] = index;
-});
-if (isNaN(levelID) || levelIdToIndex[levelID] === undefined) 
-  levelID = 1;
-var levelData = LEVELS_DATA.levels[levelIdToIndex[levelID]];
+var levelIndex = parseInt(url.get(currentURL.query)['level']);
+if (isNaN(levelIndex) || levelIndex < 0 || levelIndex >= LEVELS_DATA.length) 
+  levelIndex = 0;
+var levelData = LEVELS_DATA[levelIndex];
 
 
 //input

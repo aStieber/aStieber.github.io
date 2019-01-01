@@ -1,6 +1,6 @@
 var pl = planck, Vec2 = pl.Vec2;
 
-var GLOBAL_OBJECTIVE_COUNT = 0;
+var GLOBAL_OBJECTIVE_COUNT = 2048;
 class Objective {
   constructor(objectiveDef) {
     this.m_kind = objectiveDef.kind;
@@ -16,7 +16,7 @@ class Objective {
   }
 
   getFixtureDef() {
-    var userData = {type: "objective", kind: this.m_kind, objID: this.m_objectiveID};
+    var userData = {type: "objective", kind: this.m_kind, id: this.m_objectiveID};
     if (this.m_kind === "coin")
       return {userData, isSensor: true}
     return {userData};

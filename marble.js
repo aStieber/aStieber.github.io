@@ -2,7 +2,7 @@ var pl = planck, Vec2 = pl.Vec2;
 
 class Marble {
   constructor(world, startingPos) {
-    this.m_contactCount = 0;
+    this.m_contactList = [];
     this.m_marbleBody = null;
     this.m_maxLinearVelocity = 1.5;
     this.m_maxAngularVelocity = 40.;
@@ -16,8 +16,9 @@ class Marble {
   }
 
   isTouchingGround() {
-    return this.m_contactCount > 0;
+    return this.m_contactList.length > 0;
   }
+
   applyLinearForce(vector) {
     this.m_marbleBody.applyForce(vector, this.getPosition(), true);
     if (Math.abs(this.m_marbleBody.getLinearVelocity()) > this.m_maxLinearVelocity) {
@@ -42,6 +43,14 @@ class Marble {
 
   setPosition(pos) {
     this.m_marbleBody.setPosition(pos);
+  }
+
+  addContact(id) {
+    this.m_contactList.push(id);
+  }
+
+  removeContact(id) {
+    this.m_contactList = this.m_contactList.filter((x) => x !== id);
   }
 
 }
