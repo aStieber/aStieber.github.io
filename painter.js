@@ -24,7 +24,7 @@ class Painter {
         context.beginPath();
         //center & rotate our context
         var center = this.translatePosition(dynamic.getBody().getPosition());
-        var angle = dynamic.getBody().getAngle();
+        var angle = dynamic.getBody().getAngle() * 2;
         context.translate(center.x, center.y);
         context.rotate(-angle);
         context.beginPath();
@@ -32,7 +32,7 @@ class Painter {
         var x = dynamic.getShape().getVertex(0).x;
         var y = dynamic.getShape().getVertex(0).y;
         var rectWidth = this.translateX(Math.abs(dynamic.getShape().getVertex(1).x - x));
-        var rectHeight = this.translateY(Math.abs(dynamic.getShape().getVertex(3).y - y)) - (this.m_height / 2.);
+        var rectHeight = this.translateY(Math.abs(dynamic.getShape().getVertex(3).y - y)) - (this.m_height / 2.); //
         context.rect(this.translateX(x), y, rectWidth, rectHeight);
         context.strokeStyle = "#FFFFFF";
         context.stroke();

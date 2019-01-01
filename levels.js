@@ -53,20 +53,32 @@ var LEVELS_DATA = {"levels": [
         "id": 3,
         "text": "Beginner 1 - A Lesson In Position",
         "revertCount": 1,
-        "marbleStart": {"x": 10, "y": 1},
+        "marbleStart": {"x": 10, "y": 3.25},
         "terrain": [
-            {"kind": "ground", "p1": {"x": 0, "y": 0}, "p2": {"x": 25,"y": 0}},
-            {"kind": "ice", "p1": {"x": 25, "y": 0}, "p2": {"x": 40,"y": 0}},
-            {"kind": "glue", "p1": {"x": 40, "y": 0}, "p2": {"x": 55,"y": 0}},
-            {"kind": "lava", "p1": {"x": 55, "y": 0}, "p2": {"x": 70,"y": 0}},
-            {"kind": "lava", "p1": {"x": 20, "y": .5}, "p2": {"x": 20,"y": -3}},
+            {"kind": "ground", "p1": {"x": 9, "y": 3}, "p2": {"x": 14,"y": 2.5}},
+            {"kind": "ground", "p1": {"x": 13, "y": 2}, "p2": {"x": 17,"y": 1.5}},
+            {"kind": "ground", "p1": {"x": 16, "y": 1}, "p2": {"x": 20,"y": .5}},
+            {"kind": "ground", "p1": {"x": 19, "y": 0}, "p2": {"x": 23,"y": -.5}},
+            {"kind": "ground", "p1": {"x": 22, "y": -1}, "p2": {"x": 26,"y": -1.5}},
+            {"kind": "ground", "p1": {"x": 26, "y": -1.5}, "p2": {"x": 35,"y": -1.5}},
+            {"kind": "ground", "p1": {"x": 38, "y": -1}, "p2": {"x": 38,"y": -5}},
+            {"kind": "ground", "p1": {"x": 35, "y": -1.5}, "p2": {"x": 35,"y": -5}},
+            {"kind": "lava", "p1": {"x": 35, "y": -5}, "p2": {"x": 37.8,"y": -5}},
+            {"kind": "ground", "p1": {"x": 38, "y": -1}, "p2": {"x": 38,"y": -5}},
+            {"kind": "ground", "p1": {"x": 41, "y": -1.5}, "p2": {"x": 47,"y": -.5}},
+            {"kind": "ground", "p1": {"x": 47, "y": -.5}, "p2": {"x": 52,"y": 1}},
+            {"kind": "ground", "p1": {"x": 52, "y": 1}, "p2": {"x": 53,"y": 3}},
+            {"kind": "ground", "p1": {"x": 38, "y": -3}, "p2": {"x": 42,"y": -4}},
+            {"kind": "ground", "p1": {"x": 42, "y": -4}, "p2": {"x": 47, "y": -.5}}
+            
         ],
         "dynamics": [
-            {"kind": "seesaw", "fulcrum": {"x": 20, "y": .5}, "leftLength": 12.5}
+            {"kind": "seesaw", "fulcrum": {"x": 38, "y": -1}, "length": 4, "height": 0.05, "maxAngle": 8.}
         ],
         "objectives": [
-            {"kind": "coin", "topLeft": {"x": 5,"y": 1}},
-            {"kind": "finish", "topLeft": {"x": 2,"y": 1}}
+            {"kind": "coin", "topLeft": {"x": 32,"y": -1}},
+            {"kind": "coin", "topLeft": {"x": 51,"y": 1.25}},
+            {"kind": "finish", "topLeft": {"x": 42,"y": -3.5}}
         ]
     }
     ,{
